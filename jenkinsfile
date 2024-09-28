@@ -1,1 +1,42 @@
-
+pipeline {
+agent any
+tools {
+jdk 'jdk17'
+nodejs 'node16'
+}
+environment {
+SCANNER_HOME = tool 'sonar-scanner'
+}
+stages {
+stage('Clean Workspace') {
+steps {
+cleanWs()
+}
+}
+stage('Checkout from Git') {
+steps {
+git branch: 'main', url: 'https://github.com/Yogesh1501/Society_Management'
+}
+}
+stage('Sonarqube Analysis') {
+steps {
+withSonarQubeEnv('sonar-server') {
+sh """${SCANNER_HOME}/bin/sonar-scanner \
+-Dsonar.projectName=Society_Management
+ \
+-Dsonar.projectKey=Society_Management"""
+}
+}
+}
+stage('Quality Gate') {
+steps {
+script {
+waitForQualityGate abortPipeline: false, credentialsId: 'So
+}
+}
+}
+stage('Install Dependencies') {
+steps {
+sh 'npm install'
+}
+}
