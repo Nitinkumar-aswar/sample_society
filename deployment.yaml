@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: "my-app"
-        image: Society_Management_sina:latest
+        image: ......sina:latest
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
