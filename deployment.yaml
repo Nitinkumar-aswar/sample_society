@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Society_Management
+  name: "my-app"
 spec:
   selector:
     matchLabels:
-      app: Society_Management
+      app: "my-app"
   replicas: 1 
   template: 
     metadata:
       labels:
-        app: Society_Management
+        app: 
     spec:
       containers:
-      - name: Society_Management
+      - name: "my-app"
         image: Society_Management_sina:latest
         ports:
         - containerPort: 8080
@@ -22,11 +22,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: Society_Management
+  name: "my-app"
 spec:
   type: LoadBalancer
   selector:
-    app: Society_Management
+    app: "my-app"
   ports:
   - name: http
     protocol: TCP
