@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import "./Register.css"
+
 
 const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState('');
@@ -18,7 +20,6 @@ const Login = ({ onLoginSuccess }) => {
 
     return (
         <div className="login-container">
-             <h2 className="f-type-h">Login</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>

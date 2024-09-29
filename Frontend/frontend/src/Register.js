@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./RegisterLogin.css";
+import "./Register.css"
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -27,9 +27,8 @@ const Register = () => {
     };
 
     return (
-      <div className='f-con'>
         <div className="register-container">
-            <h2 className="f-type-h">Register</h2>
+            <h2>Register</h2>
             {success ? (
                 <div className="success-message">Registration successful! Please log in.</div>
             ) : (
@@ -79,7 +78,6 @@ const Register = () => {
                 </form>
             )}
         </div>
-    </div>
     );
 };
 
