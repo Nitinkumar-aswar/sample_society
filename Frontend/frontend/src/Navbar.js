@@ -47,13 +47,20 @@ const Navbar = () => {
         <div id="navbarSupportedContent">
           <ul className={`navbar-nav ms-auto mb-2 mb-lg-0 ${isScrolled ? "d-none" : ""}`}>
             <li className="nav-item">
-              <Link to="/" className="menu-link" style={{ color: "#008000" }}>
-                Login
+              <Link to="/dashboard" className="menu-link" 
+              // style={{ color: "#008000" }}
+              >
+                Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/Contact" className="menu-link" style={{ color: "black" }}>
-                Contact Us
+              <Link to="/register" className="menu-link" >
+                Register
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/login" className="menu-link"  >
+                Login
               </Link>
             </li>
           </ul>

@@ -11,6 +11,8 @@
 
 #navbar-container {
   flex-wrap: nowrap;
+  position: relative;
+  background-color: black;
 }
 #navbarSupportedContent{
     width: 100%;
@@ -36,9 +38,9 @@
 .nav-item{
     list-style-type: none; 
 }
-.logo-img{
+/* .logo-img{
     mix-blend-mode: multiply;
-}
+} */
 .navbar-brand {
   padding: 0px;
   margin: 0px !important;
@@ -49,10 +51,11 @@
 
 .menu-link {
   margin-right: 30px;
+  color :black;
 }
 
 .menu-link {
-  color: #3f3f3f;
+  color: black;
   font-weight: 800;
   font-size: 23px;
   text-decoration: none;
