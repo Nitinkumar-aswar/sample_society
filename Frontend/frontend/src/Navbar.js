@@ -53,7 +53,7 @@ const Navbar = () => {
                 Dashboard
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to="/register" className="menu-link" >
                 Register
               </Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
               <Link to="/login" className="menu-link"  >
                 Login
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>

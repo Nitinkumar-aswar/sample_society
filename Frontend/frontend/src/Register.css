@@ -14,6 +14,7 @@
     display: flex; /* Allows side-by-side layout of image and content */
     max-width: 1200px; /* Sets a maximum width for the container */
     margin: auto; /* Centers the container horizontally */
+    padding: 30px 80px;
   }
   
   /* Image container */
@@ -26,6 +27,7 @@
   
   /* Side image styling */
   .side-image {
+    border-radius: 100px;
     max-width: 100%; /* Responsive image width */
     height: auto; /* Maintains aspect ratio */
   }
