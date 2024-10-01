@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import "./Register.css"
+import axios from 'axios';
+import './Register.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -9,9 +10,10 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Basic validation
+
+        // Basic validation on the client side
         if (!username || !email || !password || !confirmPassword) {
             setError('All fields are required');
             return;
@@ -20,10 +22,27 @@ const Register = () => {
             setError('Passwords do not match');
             return;
         }
-        // Simulate successful registration
-        setError('');
-        setSuccess(true);
-        console.log('User registered:', { username, email, password });
+
+        // Create formData to send to backend
+        const formData = {
+            username,
+            email,
+            password
+        };
+
+        try {
+            // Sending the form data to the Flask API
+            const response = await axios.post('http://localhost:5000/register', formData);
+            setSuccess(true);
+            setError('');
+            console.log(response.data.message); // Logging success message
+        } catch (error) {
+            if (error.response && error.response.data.errors) {
+                setError(error.response.data.errors[0]); // Displaying the first error from backend validation
+            } else {
+                setError('Registration failed. Please try again.');
+            }
+        }
     };
 
     return (

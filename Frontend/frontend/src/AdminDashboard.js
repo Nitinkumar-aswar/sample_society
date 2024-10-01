@@ -1,9 +1,6 @@
-// src/ManageMembers.js
-
 import React, { useEffect, useState } from 'react';
- import axios from 'axios';
+import axios from 'axios';
 import './UserDashboard.css'; // Include your CSS file
-
 
 const AdminDashboard = () => {
   const [members, setMembers] = useState([]);
@@ -12,14 +9,14 @@ const AdminDashboard = () => {
   useEffect(() => {
     // Check if the user is logged in
     const isLoggedIn = sessionStorage.getItem('loggedin');
-    // if (!isLoggedIn) {
-    //   window.location.href = '/login.html';
-    // }
+    if (!isLoggedIn) {
+      window.location.href = '/login.js';
+    }
 
     // Fetch members data from the backend
     const fetchMembers = async () => {
       try {
-        const response = await axios.get('/api/members'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:5000/members'); // Replace with your API endpoint
         setMembers(response.data);
       } catch (err) {
         setError(err.message);
@@ -27,7 +24,7 @@ const AdminDashboard = () => {
     };
 
     fetchMembers();
-  }, []);
+  }, []); // Empty dependency array ensures it runs only once when component mounts.
 
   const handleUpdate = (id) => {
     // Redirect to the update user page
@@ -47,14 +44,10 @@ const AdminDashboard = () => {
     <div>
       <header>
         <div className="left_area">
-        <img className="logo-img"
+          <img className="logo-img"
             src="/society-logo.jpg"
-            // id="myimage"
             width="60px"
             height="40px"
-           
-            // onClick={() => window.scrollTo(0, 0)}
-            // style={{ filter: isScrolled ? "invert(1)" : "invert(0)" }}
           />
         </div>
         <div className="right_area">
@@ -64,7 +57,7 @@ const AdminDashboard = () => {
 
       <div className="sidebar">
         <center>
-          <img src="Images/download.png" className="profile_image" alt="" />
+          <img src="Images/download.png" className="profile_image" alt="Profile" />
           <h4>Admin</h4>
         </center>
         <a href="/managemem" className="active"><i className="fas fa-desktop"></i><span>Manage Members</span></a>
@@ -77,14 +70,9 @@ const AdminDashboard = () => {
       <div className="content">
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
         <a href="/insertuser" className="Table_btn1">Add Member</a>
         <br />
-        <br />
-        {error && <p>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
         <table className="content-table">
           <thead>
             <tr>
@@ -107,7 +95,7 @@ const AdminDashboard = () => {
                   <td>{member.Email}</td>
                   <td>{member.Flatno}</td>
                   <td>{member.MobileNo}</td>
-                  <td>{member['nno of family members']}</td>
+                  <td>{member['nno of family members']}</td> {/* Ensure this key exists */}
                   <td>
                     <button className="Table_btn" onClick={() => handleUpdate(member.Id)}>Update</button>
                   </td>

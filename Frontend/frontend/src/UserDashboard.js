@@ -12,7 +12,7 @@ const UserDashboard = () => {
     // Fetch user data when component mounts
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/userdata'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:5000/userdata'); // Replace with your API endpoint
         setUserData(response.data);
       } catch (err) {
         setError(err.message);
@@ -25,9 +25,9 @@ const UserDashboard = () => {
   // Handle redirection if not logged in
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem('loggedin', true);
-    // if (!isLoggedIn) {
-    //   window.location.href = '/login.js';
-    // }
+    if (!isLoggedIn) {
+      window.location.href = '/login.js';
+    }
   }, []);
 
   return (

@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
-import "./Register.css"
-
+import axios from 'axios';
+import "./Register.css";
 
 const Login = ({ onLoginSuccess }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate login success (you can replace this with real authentication logic)
-        if (username === 'admin' && password === 'password') {
-            setError('');
-            onLoginSuccess(); // Call the onLoginSuccess prop to change the view
-        } else {
-            setError('Invalid credentials. Please try again.');
+
+        const formData = {
+            email,
+            password
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5000/login', formData);
+            setError(''); // Clear error if successful
+            console.log(response.data.message); // Log success message
+            onLoginSuccess(); // Call the onLoginSuccess prop to change the view or update the state
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                setError(error.response.data.message); // Set error from the backend
+            } else {
+                setError('Login failed. Please try again.');
+            }
         }
     };
 
@@ -22,12 +33,12 @@ const Login = ({ onLoginSuccess }) => {
         <div className="login-container">
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="email">Email</label>
                     <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
