@@ -9,6 +9,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false); // Added loading state
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,26 +23,36 @@ const Register = () => {
             setError('Passwords do not match');
             return;
         }
+        
+        // More password validation (optional)
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters long');
+            return;
+        }
 
-        // Create formData to send to backend
-        const formData = {
-            username,
-            email,
-            password
-        };
+        const formData = { username, email, password };
 
         try {
-            // Sending the form data to the Flask API
-            const response = await axios.post('http://localhost:5000/register', formData);
+            setLoading(true); // Start loading
+            const response = await axios.post('http://127.0.0.1:5000/register', formData);
             setSuccess(true);
             setError('');
             console.log(response.data.message); // Logging success message
+            setUsername(''); // Reset fields
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
         } catch (error) {
+            setLoading(false); // Stop loading
             if (error.response && error.response.data.errors) {
-                setError(error.response.data.errors[0]); // Displaying the first error from backend validation
+                setError(error.response.data.errors[0]); // Display first error from backend
+            } else if (error.response && error.response.data.message) {
+                setError(error.response.data.message); // Generic backend error message
             } else {
                 setError('Registration failed. Please try again.');
             }
+        } finally {
+            setLoading(false); // Stop loading regardless of the result
         }
     };
 
@@ -93,7 +104,9 @@ const Register = () => {
                         />
                     </div>
                     {error && <div className="error-message">{error}</div>}
-                    <button type="submit">Register</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Registering...' : 'Register'}
+                    </button>
                 </form>
             )}
         </div>

@@ -8,19 +8,23 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS
 import os
 
-app = Flask(__name__, static_folder='../Frontend/frontend/build', static_url_path='/')
+app = Flask(__name__, 
+            static_folder='../Frontend/frontend/build',
+              static_url_path='/')
 
 # MySQL Configuration
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'localhost:3306'
 app.config['MYSQL_PORT'] = 3306
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'registerdatabase'
-app.secret_key = 'e3c1f8bca02ff8b1a9b3d9e6a7e2d6c2'
+app.secret_key = ''
 
 mysql = MySQL(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": "*"}})
+
 CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
+# CORS(app)
 
 # Forms and Validation
 class RegisterForm(FlaskForm):
@@ -43,7 +47,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 # Serve React frontend
-@app.route('/api/data')
+@app.route('/')
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
@@ -89,7 +93,7 @@ def login():
 
     return jsonify({'errors': form.errors}), 400
 
-@app.route('/api/dashboard', methods=['GET'])
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
     if 'user_id' in session:
         user_id = session['user_id']
@@ -104,7 +108,7 @@ def dashboard():
 
     return jsonify({'message': 'Unauthorized'}), 401
 
-@app.route('/api/logout', methods=['POST'])
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
     return jsonify({'message': 'You have been logged out successfully.'}), 200
@@ -115,4 +119,4 @@ def not_found(e):
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(port=5000, debug=True)
