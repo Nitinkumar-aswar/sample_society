@@ -1,24 +1,29 @@
-FROM python:3.9-slim
+# Step 1: Build the React app
+FROM node:18 AS build
 
-# Set the working directory inside the container
-WORKDIR /myapp
+# Set working directory inside the container
+WORKDIR /app
 
-# Install Node.js and npm for React app (if needed)
-RUN apt-get update && \
-    apt-get install -y nodejs npm && \
-    rm -rf /var/lib/apt/lists/*
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
 
-# Copy the requirements.txt file from your local machine to the Docker container
-COPY Frontend/frontend/requirements.txt /myapp/requirements.txt
+# Install all dependencies
+RUN npm install
 
-# Install Python dependencies from the requirements.txt file
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the rest of the application files into the container
+COPY . .
 
-# Copy the rest of the application into the container
-COPY Frontend/frontend /myapp
+# Build the React app
+RUN npm run build
 
-# Expose the port the app will run on (for backend)
-EXPOSE 5000
+# Step 2: Serve the React app with Nginx
+FROM nginx:alpine
 
-# Run the application
-CMD ["python", "app.py"]
+# Copy the build files from the previous step to the Nginx directory
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expose the port Nginx will serve the app on (80)
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
