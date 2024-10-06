@@ -10,7 +10,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy and install Python dependencies from requirements.txt
-COPY Frontend/frontend/requirement.txt
+COPY Frontend/frontend/src/requirements.txt /Frontend/frontend/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
