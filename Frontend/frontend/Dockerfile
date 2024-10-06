@@ -9,7 +9,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY requirements.txt .
+COPY Frontend/frontend/src/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the app
