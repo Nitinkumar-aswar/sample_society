@@ -1,27 +1,20 @@
-# Stage 1: Build the React App
-FROM node:14-alpine as build
+# Use the official lightweight Python image from Docker Hub
+FROM python:3.10-slim
 
-# Set the working directory for the backend (Node.js app)
-WORKDIR /society/Backend/
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json ./
-RUN npm install
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
 
-# Copy the rest of the application code
+# Install the Python dependencies inside the container
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire backend code into the container's working directory
 COPY . .
 
-# Build the app
-RUN npm run build
+# Expose the port the backend will run on (5000 in your case)
+EXPOSE 5000
 
-# Stage 2: Serve the app using Nginx
-FROM nginx:alpine
-
-# Copy the build output from the previous stage
-COPY --from=build /society/Backend/build /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Set the default command to run your Python app
+CMD ["python", "app.py"]
