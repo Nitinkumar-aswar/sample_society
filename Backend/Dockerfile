@@ -13,8 +13,11 @@ RUN npm install
 # Copy the rest of the application's source code to the container
 COPY . .
 
-# Expose the port that the application listens on
-EXPOSE 3000
+# Build the React.js application
+RUN npm run build
 
-# Start the Node.js application
-CMD [ "npm", "start" ]
+# Expose the port that the application listens on
+EXPOSE 3001
+
+# Start a simple web server to serve the built React.js files
+CMD [ "npx", "serve", "-s", "build" ]
