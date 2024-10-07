@@ -1,19 +1,20 @@
-# Use the official lightweight Python image from Docker Hub
-FROM python:3.10-slim
+# Use the official Node.js 20 image as the base image
+FROM node:20
 
-# Set the working directory inside the container
-WORKDIR Backend/app.py
-# Copy the requirements.txt file to the container
-COPY requirements.txt .
+# Set the working directory in the container
+WORKDIR /app
 
-# Install the Python dependencies inside the container
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the package.json and package-lock.json files to the container
+COPY package*.json ./
 
-# Copy the entire backend code into the container's working directory
+# Install the dependencies
+RUN npm install
+
+# Copy the rest of the application's source code to the container
 COPY . .
 
-# Expose the port the backend will run on (5000 in your case)
-EXPOSE 5000
+# Expose the port that the application listens on
+EXPOSE 3000
 
-# Set the default command to run your Python app
-CMD ["python", "app.py"]
+# Start the Node.js application
+CMD [ "npm", "start" ]
