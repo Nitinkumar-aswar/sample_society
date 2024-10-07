@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set the working directory
-WORKDIR Frontend/frontend/src/App.js
+WORKDIR Frontend/frontend
 
 # Copy package.json and install dependencies
 COPY package*.json ./
