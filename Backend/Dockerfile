@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Set the working directory inside the container
-WORKDIR Frontend/frontend/
+WORKDIR Backend/app.py
 # Copy the requirements.txt file to the container
 COPY requirements.txt .
 
